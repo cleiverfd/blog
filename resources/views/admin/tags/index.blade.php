@@ -3,7 +3,8 @@
 @section('title', 'Blog')
 
 @section('content_header')
-    <h1>Lista de categorias</h1>
+    <a href="{{route('admin.tags.create')}}" class="btn btn-success btn-sm float-right">Crear nueva etiqueta</a>
+    <h1>Mostrar listado de etiquetas</h1>
 @stop
 
 @section('content')
@@ -12,12 +13,8 @@
         <strong>{{session('info')}}</strong>
     </div>
 @endif
-    
     <div class="card">
         <div class="card-body">
-            <div class="card-header">
-                <a href="{{route('admin.categories.create')}}" class="btn btn-success btn-sm">Agregar categoria</a>
-            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -27,18 +24,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($categories as $category)
+                    @foreach ($tags as $tag)
                         <tr>
-                            <td>{{ $category->id}}</td>
-                            <td>{{ $category->name}}</td>
+                            <td>{{$tag->id}}</td>
+                            <td>{{$tag->name}}</td>
                             <td width="10px">
-                                <a href="{{route('admin.categories.edit', $category)}}" class="btn btn-primary btn-sm">Editar</a>
+                                <a href="{{route('admin.tags.edit', $tag)}}" class="btn btn-warning btn-sm">Editar</a>
                             </td>
                             <td width="10px">
-                                <form action="{{route('admin.categories.destroy',$category)}}" method="POST">
+                                <form action="{{route('admin.tags.destroy', $tag)}}" method="POST">
                                     @csrf
                                     @method('delete')
-
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                                 </form>
                             </td>
@@ -49,4 +45,3 @@
         </div>
     </div>
 @stop
-
