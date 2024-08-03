@@ -19,7 +19,7 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->word(100);
+        $name = $this->faker->sentence(3);;
         return [
             'name' => $name,
             'slug' => Str::slug($name),

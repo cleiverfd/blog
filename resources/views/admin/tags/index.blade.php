@@ -3,16 +3,18 @@
 @section('title', 'Blog')
 
 @section('content_header')
-    <a href="{{route('admin.tags.create')}}" class="btn btn-success btn-sm float-right">Crear nueva etiqueta</a>
+    @can('admin.tags.create')
+        <a href="{{ route('admin.tags.create') }}" class="btn btn-success btn-sm float-right">Crear nueva etiqueta</a>
+    @endcan
     <h1>Mostrar listado de etiquetas</h1>
 @stop
 
 @section('content')
-@if(session('info'))
-    <div class="alert alert-success">
-        <strong>{{session('info')}}</strong>
-    </div>
-@endif
+    @if (session('info'))
+        <div class="alert alert-success">
+            <strong>{{ session('info') }}</strong>
+        </div>
+    @endif
     <div class="card">
         <div class="card-body">
             <table class="table table-striped">
@@ -20,23 +22,27 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th colspan="2">Acciones</th>
+                        <th colspan="2"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($tags as $tag)
                         <tr>
-                            <td>{{$tag->id}}</td>
-                            <td>{{$tag->name}}</td>
+                            <td>{{ $tag->id }}</td>
+                            <td>{{ $tag->name }}</td>
                             <td width="10px">
-                                <a href="{{route('admin.tags.edit', $tag)}}" class="btn btn-warning btn-sm">Editar</a>
+                                @can('admin.tags.edit')
+                                    <a href="{{ route('admin.tags.edit', $tag) }}" class="btn btn-primary btn-sm">Editar</a>
+                                @endcan
                             </td>
                             <td width="10px">
-                                <form action="{{route('admin.tags.destroy', $tag)}}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                </form>
+                                @can('admin.tags.destroy')
+                                    <form action="{{ route('admin.tags.destroy', $tag) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

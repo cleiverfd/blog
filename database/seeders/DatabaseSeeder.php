@@ -20,18 +20,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $directoryPath = 'storage/posts';
+        $directoryPath = storage_path('app/public/posts');
 
-        // Verifica si el directorio ya existe utilizando Storage
-        if (Storage::exists($directoryPath)) {
+        // Verifica si el directorio ya existe
+        if (File::exists($directoryPath)) {
             // Elimina el directorio si ya existe
-            Storage::deleteDirectory($directoryPath);
+            File::deleteDirectory($directoryPath);
         }
 
-        // Crea el directorio utilizando Storage
-        Storage::makeDirectory($directoryPath, 0755, true);
-        //File::makeDirectory($directoryPath, 0755, true);
-        // Storage::makeDirectory('posts');
+        // Crea el directorio nuevamente
+        File::makeDirectory($directoryPath, 0755, true);
+
+        $this->call(RolSeeder::class);
 
         $this->call(UserSeeder::class);
         Category::factory(4)->create();

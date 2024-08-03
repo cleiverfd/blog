@@ -9,10 +9,8 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name', 
-        'slug',
-        'color'
+    protected $guarded = [
+        'id', 'created_at', 'updated_at'
     ];
 
     public function getRouteKeyName(){
